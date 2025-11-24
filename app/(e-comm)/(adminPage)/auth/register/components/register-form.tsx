@@ -144,7 +144,7 @@ export default function RegisterForm({ redirect = '/' }: RegisterFormProps) {
           // Optional: small delay to allow session propagation
           await new Promise(res => setTimeout(res, 400));
           // Redirect based on button clicked: cancel = guidelines, confirm = dashboard
-          const redirectTo = (swalResult.isDismissed && swalResult.dismiss === 'cancel') 
+          const redirectTo = (swalResult.isDismissed && String(swalResult.dismiss) === 'cancel') 
             ? '/dashboard/management/guidelines' 
             : result.redirectTo;
           router.push(redirectTo);

@@ -117,7 +117,7 @@ export async function sendErrorNotificationEmail(errorData: ErrorEmailData): Pro
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
-      to: process.env.ADMIN_EMAIL,
+      to: 'dreamtoapp@gmail.com',
       subject,
       html: emailContent,
     });

@@ -6,11 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
 import Link from '@/components/link';
 import { Icon } from '@/components/icons/Icon';
-import { Badge } from '@/components/ui/badge';
 import PhaseCard from './components/PhaseCard';
 import ActionCard from './components/ActionCard';
 import CollapsibleSection from './components/CollapsibleSection';

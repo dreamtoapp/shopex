@@ -6,7 +6,7 @@ export async function POST(_request: NextRequest) {
     console.log('🧪 Testing email configuration...');
     console.log('EMAIL_USER:', process.env.EMAIL_USER);
     console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? '***SET***' : 'NOT SET');
-    console.log('ADMIN_EMAIL:', process.env.ADMIN_EMAIL);
+    console.log('ADMIN_EMAIL:', 'dreamtoapp@gmail.com');
 
     // Test email with minimal data
     const testResult = await sendErrorNotificationEmail({
@@ -27,7 +27,7 @@ export async function POST(_request: NextRequest) {
         message: 'Test email sent successfully',
         config: {
           emailUser: process.env.EMAIL_USER,
-          adminEmail: process.env.ADMIN_EMAIL,
+          adminEmail: 'dreamtoapp@gmail.com',
           emailPassSet: !!process.env.EMAIL_PASS
         }
       });
@@ -38,7 +38,7 @@ export async function POST(_request: NextRequest) {
         message: 'Test email failed to send',
         config: {
           emailUser: process.env.EMAIL_USER,
-          adminEmail: process.env.ADMIN_EMAIL,
+          adminEmail: 'dreamtoapp@gmail.com',
           emailPassSet: !!process.env.EMAIL_PASS
         }
       });
@@ -51,7 +51,7 @@ export async function POST(_request: NextRequest) {
       error: error instanceof Error ? error.message : 'Unknown error',
       config: {
         emailUser: process.env.EMAIL_USER,
-        adminEmail: process.env.ADMIN_EMAIL,
+        adminEmail: 'dreamtoapp@gmail.com',
         emailPassSet: !!process.env.EMAIL_PASS
       }
     }, { status: 500 });

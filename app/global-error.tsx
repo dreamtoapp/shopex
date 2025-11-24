@@ -284,8 +284,7 @@ export default function GlobalError({
           }}>
             <button
               onClick={() => {
-                // Using the TECHNICAL_WHATSAPP from .env
-                const technicalWhatsApp = process.env.TECHNICAL_WHATSAPP || '966554113107';
+                const technicalWhatsApp = '966554113107';
                 const currentTime = new Date().toLocaleString('ar-SA');
                 const userAgent = navigator.userAgent;
                 const screenInfo = `${screen.width}x${screen.height}`;
