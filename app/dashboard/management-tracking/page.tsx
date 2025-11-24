@@ -25,7 +25,7 @@ export default function ManagementTrackingPage() {
                 </div>
 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <Card className="shadow-lg border-l-4 border-l-feature-commerce card-hover-effect">
                         <CardContent className="p-6">
                             <div className="flex items-center justify-between">
@@ -34,18 +34,6 @@ export default function ManagementTrackingPage() {
                                     <p className="text-2xl font-bold text-feature-commerce">24</p>
                                 </div>
                                 <Icon name="MapPin" className="h-8 w-8 text-feature-commerce" />
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="shadow-lg border-l-4 border-l-feature-suppliers card-hover-effect">
-                        <CardContent className="p-6">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm text-muted-foreground">السائقين النشطين</p>
-                                    <p className="text-2xl font-bold text-feature-suppliers">8</p>
-                                </div>
-                                <Icon name="Truck" className="h-8 w-8 text-feature-suppliers" />
                             </div>
                         </CardContent>
                     </Card>
@@ -127,7 +115,7 @@ export default function ManagementTrackingPage() {
                         <div className="text-center py-12 text-muted-foreground">
                             <Icon name="MapPin" className="h-16 w-16 mx-auto mb-4 text-muted-foreground/50" />
                             <p className="text-lg font-medium mb-2">لا توجد طلبات قيد التتبع حالياً</p>
-                            <p className="text-sm">ستظهر الطلبات هنا عند بدء السائقين برحلاتهم</p>
+                            <p className="text-sm">ستظهر الطلبات هنا عند بدء التتبع</p>
                         </div>
                     </CardContent>
                 </Card>

@@ -1,6 +1,6 @@
 'use client';
 
-import { Users, Package, BarChart3, Zap, ClipboardList, Truck, Bell } from 'lucide-react';
+import { Users, Package, BarChart3, Zap, ClipboardList, Bell } from 'lucide-react';
 import Link from '@/components/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -46,13 +46,6 @@ const quickActions = [
         href: '/dashboard/management-users/customer',
         icon: Users,
         color: 'text-orange-600',
-    },
-    {
-        id: 'track-driver',
-        title: 'تتبع السائق',
-        href: '/dashboard/management-tracking',
-        icon: Truck,
-        color: 'text-red-600',
     },
 ];
 

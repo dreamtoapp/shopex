@@ -43,7 +43,7 @@ export default function AdminNotificationListener({ showToast = true }: AdminNot
                         // Handle cancelled order
                         if (showToast) {
                             toast.error('❌ تم إلغاء الطلب', {
-                                description: `طلب #${data.orderNumber} أُلغي بواسطة السائق ${data.driverName || ''}${data.reson ? ' - السبب: ' + data.reson : ''}`,
+                                description: `طلب #${data.orderNumber} تم إلغاؤه${data.reson ? ' - السبب: ' + data.reson : ''}`,
                                 action: {
                                     label: 'عرض',
                                     onClick: () => window.location.href = '/dashboard/management-orders?status=canceled'
@@ -103,7 +103,7 @@ export default function AdminNotificationListener({ showToast = true }: AdminNot
                 channel.bind('order-cancelled', (data: any) => {
                     if (showToast) {
                         toast.error('تم إلغاء الطلب', {
-                            description: `طلب #${data.orderNumber} أُلغي بواسطة السائق ${data.driverName || ''}${data.reson ? ' - السبب: ' + data.reson : ''}`,
+                            description: `طلب #${data.orderNumber} تم إلغاؤه${data.reson ? ' - السبب: ' + data.reson : ''}`,
                             action: {
                                 label: 'عرض',
                                 onClick: () => window.location.href = '/dashboard/management-orders?status=canceled'

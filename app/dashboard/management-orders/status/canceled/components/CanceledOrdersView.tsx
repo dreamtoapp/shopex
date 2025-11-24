@@ -65,8 +65,6 @@ export default function CanceledOrdersView({
     const statistics = useMemo(() => {
         const totalLoss = orders.reduce((sum, order) => sum + (order.amount || 0), 0);
         const uniqueCustomers = new Set(orders.map(order => order.customer?.id)).size;
-        // Driver functionality removed
-        const uniqueDrivers = 0;
         const avgOrderValue = orders.length > 0 ? totalLoss / orders.length : 0;
 
         // Count cancellation reasons
@@ -79,7 +77,6 @@ export default function CanceledOrdersView({
         return {
             totalLoss,
             uniqueCustomers,
-            uniqueDrivers,
             avgOrderValue,
             totalOrders: orders.length,
             reasonCounts
@@ -349,7 +346,7 @@ export default function CanceledOrdersView({
     return (
         <div className="space-y-6" dir="rtl">
             {/* Statistics Cards */}
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 <Card className="border-destructive/20 shadow-sm hover:shadow-md transition-shadow">
                     <CardContent className="p-6">
                         <div className="flex items-center justify-between">
@@ -380,25 +377,6 @@ export default function CanceledOrdersView({
                             </div>
                             <div className="p-3 bg-feature-users-soft rounded-xl">
                                 <Icon name="Users" className="h-6 w-6 text-feature-users" />
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <Card className="border-feature-suppliers shadow-sm hover:shadow-md transition-shadow">
-                    <CardContent className="p-6">
-                        <div className="flex items-center justify-between">
-                            <div className="flex-1">
-                                <p className="text-sm font-medium text-muted-foreground mb-1">السائقون المتأثرون</p>
-                                <div className="flex items-baseline gap-1">
-                                    <span className="text-2xl font-bold text-feature-suppliers font-mono">
-                                        {formatNumber(statistics.uniqueDrivers)}
-                                    </span>
-                                    <span className="text-sm font-medium text-feature-suppliers/80">سائق</span>
-                                </div>
-                            </div>
-                            <div className="p-3 bg-feature-suppliers-soft rounded-xl">
-                                <Icon name="Truck" className="h-6 w-6 text-feature-suppliers" />
                             </div>
                         </div>
                     </CardContent>

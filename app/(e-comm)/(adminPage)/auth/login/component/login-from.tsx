@@ -1,7 +1,7 @@
 'use client';
 import { useActionState } from 'react';
 import { Eye, EyeOff, Loader2, Shield, ArrowRight, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -10,8 +10,8 @@ import { userLogin } from '../action/userLogin';
 import { checkPhoneExists } from '../action/checkPhoneExists';
 import { sendPasswordViaWhatsApp } from '../action/sendPasswordViaWhatsApp';
 import { syncCartOnLogin } from '@/app/(e-comm)/(cart-flow)/cart/helpers/cartSyncHelper';
-import { useRouter } from 'next/navigation';
 import { Label } from '@/components/ui/label';
+import { useSession } from 'next-auth/react';
 
 interface LoginFormProps {
   redirect?: string;
@@ -527,28 +527,64 @@ export default function LoginPe({ redirect = '/' }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const router = useRouter();
+  const { data: session, status } = useSession();
+  const redirectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hasRedirectedRef = useRef(false);
 
   // Debug form state changes
-  console.log('🔍 DEBUG: Login form state changed:', { state, isPending });
+  console.log('🔍 DEBUG: Login form state changed:', { state, isPending, sessionStatus: status });
 
-  // ✅ SILENT CART SYNC - NO NOTIFICATIONS
+  // ✅ WAIT FOR SESSION BEFORE REDIRECTING
   useEffect(() => {
-    if (state?.success) {
+    // Only proceed if login was successful and we haven't redirected yet
+    if (!state?.success || hasRedirectedRef.current) {
+      return;
+    }
+
+    // Clear any existing timeout
+    if (redirectTimeoutRef.current) {
+      clearTimeout(redirectTimeoutRef.current);
+    }
+
+    // If session is authenticated, proceed with redirect
+    if (status === 'authenticated' && session?.user) {
+      console.log('✅ Session authenticated, proceeding with redirect');
+      hasRedirectedRef.current = true;
+      
       // Silent cart sync - no loading toast, no success message
       syncCartOnLogin()
         .then(() => {
-          // Redirect immediately - no waiting, no notifications
-          router.push(redirect);
+          // Use window.location.href for full page reload to ensure session cookie is read
+          window.location.href = redirect;
         })
         .catch((error) => {
           // Only show error if sync actually fails
           console.error('Cart sync error:', error);
           // Still redirect - don't block user experience
-          router.push(redirect);
+          window.location.href = redirect;
         });
+    } else if (status === 'loading') {
+      // Session is still loading, wait for it
+      console.log('⏳ Waiting for session to be authenticated...');
+    } else if (status === 'unauthenticated') {
+      // Session failed to authenticate, set timeout fallback
+      console.log('⚠️ Session not authenticated, setting timeout fallback');
+      redirectTimeoutRef.current = setTimeout(() => {
+        if (!hasRedirectedRef.current) {
+          console.log('⏰ Timeout reached, redirecting anyway');
+          hasRedirectedRef.current = true;
+          window.location.href = redirect;
+        }
+      }, 3000); // 3 second timeout
     }
-  }, [state, redirect, router]);
+
+    // Cleanup timeout on unmount
+    return () => {
+      if (redirectTimeoutRef.current) {
+        clearTimeout(redirectTimeoutRef.current);
+      }
+    };
+  }, [state, status, session, redirect]);
 
   const handleForgotPassword = () => {
     setShowForgotPassword(true);

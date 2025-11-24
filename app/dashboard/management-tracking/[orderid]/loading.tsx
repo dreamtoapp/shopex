@@ -2,7 +2,6 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { Icon } from '@/components/icons/Icon';
 
 export default function Loading() {
@@ -32,7 +31,7 @@ export default function Loading() {
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="flex items-center gap-3 p-3 rounded-lg bg-feature-users-soft/50">
                                 <Icon name="User" className="h-5 w-5 text-feature-users/50 animate-pulse" />
                                 <div className="space-y-2">
@@ -48,50 +47,11 @@ export default function Loading() {
                                     <Skeleton className="h-5 w-20" />
                                 </div>
                             </div>
-
-                            <div className="flex items-center gap-3 p-3 rounded-lg bg-feature-suppliers-soft/50">
-                                <Icon name="Truck" className="h-5 w-5 text-feature-suppliers/50 animate-pulse" />
-                                <div className="space-y-2">
-                                    <p className="text-xs text-muted-foreground font-medium">السائق</p>
-                                    <Skeleton className="h-5 w-28" />
-                                </div>
-                            </div>
                         </div>
                     </CardContent>
                 </Card>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Driver Information Card */}
-                    <Card className="shadow-lg border-l-4 border-l-feature-suppliers card-hover-effect">
-                        <CardHeader className="pb-4">
-                            <CardTitle className="flex items-center gap-2 text-xl">
-                                <Icon name="Truck" className="h-5 w-5 text-feature-suppliers/50 animate-pulse icon-enhanced" />
-                                معلومات السائق
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="space-y-3">
-                                {Array.from({ length: 4 }).map((_, index) => (
-                                    <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                                        <span className="text-sm text-muted-foreground">
-                                            <Skeleton className="h-4 w-20" />
-                                        </span>
-                                        <Skeleton className="h-4 w-32" />
-                                    </div>
-                                ))}
-                            </div>
-
-                            <Separator />
-
-                            <div className="flex items-center justify-center">
-                                <Badge variant="secondary" className="px-4 py-2 animate-pulse">
-                                    <Icon name="Clock" className="h-4 w-4 mr-2" />
-                                    <Skeleton className="h-4 w-20" />
-                                </Badge>
-                            </div>
-                        </CardContent>
-                    </Card>
-
+                <div className="grid grid-cols-1 gap-6">
                     {/* Order Timeline Card */}
                     <Card className="shadow-lg border-l-4 border-l-feature-analytics card-hover-effect">
                         <CardHeader className="pb-4">

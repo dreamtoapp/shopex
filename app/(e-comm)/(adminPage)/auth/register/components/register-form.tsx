@@ -158,16 +158,15 @@ export default function RegisterForm({ redirect = '/' }: RegisterFormProps) {
         await Swal.fire({
           title: '🎉 تم إنشاء حسابك بنجاح!',
           html: `
-            <div style="font-size:1.1rem;line-height:2">
-              <div>لإكمال تفعيل حسابك، يرجى:</div>
-              <ol style="text-align:right;direction:rtl;margin:1rem 0 0 0;padding-right:1.5rem">
-                <li>إضافة عنوان التوصيل الخاص بك</li>
-                <li>تفعيل الحساب عبر واتساب من صفحة حسابك الشخصي</li>
-              </ol>
+            <div style="font-size:1.1rem;line-height:2;text-align:right;direction:rtl">
+              <div>مرحباً بك! يمكنك الآن البدء في التسوق.</div>
+              ${result.requireOtp ? `
+                <div style="margin-top:1rem">ملاحظة: يرجى تفعيل الحساب عبر واتساب من صفحة حسابك الشخصي لإكمال عملية التسجيل.</div>
+              ` : ''}
             </div>
           `,
           icon: 'success',
-          confirmButtonText: 'إضافة عنوان التوصيل الآن',
+          confirmButtonText: 'ابدأ التسوق',
           customClass: {
             popup: 'swal2-rtl',
             confirmButton: 'btn-add btn-professional',

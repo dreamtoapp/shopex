@@ -47,7 +47,7 @@ interface OrderTableProps {
   totalPages: number;
   sortBy?: 'createdAt' | 'amount' | 'orderNumber';
   sortOrder?: 'asc' | 'desc';
-  orderType?: 'pending' | 'assigned';
+  orderType?: 'pending';
 }
 
 export default function OrderTable({

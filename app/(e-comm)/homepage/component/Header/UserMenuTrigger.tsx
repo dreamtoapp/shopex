@@ -5,10 +5,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { UserRole } from '@/constant/enums';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from '@/components/ui/dropdown-menu';
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useCartStore } from '@/app/(e-comm)/(cart-flow)/cart/cart-controller/cartStore';
 import { Icon } from '@/components/icons/Icon';
 // Removed connection status indicator to avoid user confusion
@@ -34,11 +34,24 @@ interface UserStats {
     reviewsCount: number;
 }
 
-export default function UserMenuTrigger({ user, alerts }: UserMenuTriggerProps) {
+export default function UserMenuTrigger({ user: userProp, alerts }: UserMenuTriggerProps) {
+    const { data: session, status } = useSession();
     const [userStats, setUserStats] = useState<UserStats | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [hasFetched, setHasFetched] = useState(false);
+    const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
+    
+    // Use session data when authenticated, fall back to prop during loading
+    const sessionUser = session?.user;
+    const user = (status === 'authenticated' && sessionUser) ? {
+        id: sessionUser.id || '',
+        name: sessionUser.name,
+        email: sessionUser.email,
+        image: sessionUser.image,
+        role: (sessionUser as any).role,
+    } : (status === 'unauthenticated' ? null : userProp);
+    
     const name = user?.name;
     const image = user?.image;
 
@@ -87,21 +100,32 @@ export default function UserMenuTrigger({ user, alerts }: UserMenuTriggerProps) 
 
     const handleLogout = async () => {
         setIsLoggingOut(true);
+        
         try {
             // Clear cart on logout
             const { clearCart } = useCartStore.getState();
             clearCart();
             console.log('🛒 Cart cleared on logout');
 
+            // Sign out - NextAuth v5 handles session clearing and redirect automatically
             await signOut({
                 callbackUrl: '/',
-                redirect: true
             });
+            // Note: signOut will handle redirect automatically, so code after this may not execute
         } catch (error) {
             console.error('خطأ في تسجيل الخروج:', error);
             setIsLoggingOut(false);
         }
     };
+
+    // Monitor session status to update logout state
+    useEffect(() => {
+        // If session becomes unauthenticated while logging out, reset the state
+        if (isLoggingOut && status === 'unauthenticated') {
+            setIsLoggingOut(false);
+            setIsLogoutDialogOpen(false);
+        }
+    }, [status, isLoggingOut]);
 
     const loadUserStats = async () => {
         // Simple caching: only fetch once
@@ -252,11 +276,25 @@ export default function UserMenuTrigger({ user, alerts }: UserMenuTriggerProps) 
 
                 {/* Compact Logout */}
                 <div className="p-1">
-                    <AlertDialog>
+                    <AlertDialog 
+                        open={isLogoutDialogOpen || isLoggingOut} 
+                        onOpenChange={(open) => {
+                            // Prevent closing dialog while logging out
+                            if (!open && isLoggingOut) {
+                                return;
+                            }
+                            if (!isLoggingOut) {
+                                setIsLogoutDialogOpen(open);
+                            }
+                        }}
+                    >
                         <AlertDialogTrigger asChild>
                             <DropdownMenuItem
                                 className="flex items-center gap-2.5 px-2 py-2 mx-1 rounded-md text-destructive hover:bg-destructive/10 hover:text-destructive cursor-pointer group"
-                                onSelect={(e) => e.preventDefault()}
+                                onSelect={(e) => {
+                                    e.preventDefault();
+                                    setIsLogoutDialogOpen(true);
+                                }}
                             >
                                 <div className="p-1 rounded bg-destructive/10 group-hover:bg-destructive/20 transition-colors">
                                     <Icon name="LogOut" className="w-3.5 h-3.5" />
@@ -275,11 +313,13 @@ export default function UserMenuTrigger({ user, alerts }: UserMenuTriggerProps) 
                                     تأكيد تسجيل الخروج
                                 </AlertDialogTitle>
                                 <AlertDialogDescription className="text-right">
-                                    هل أنت متأكد من رغبتك في تسجيل الخروج من حسابك؟
+                                    {isLoggingOut 
+                                        ? 'جاري تسجيل الخروج...' 
+                                        : 'هل أنت متأكد من رغبتك في تسجيل الخروج من حسابك؟'}
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter className="gap-2">
-                                <AlertDialogCancel>إلغاء</AlertDialogCancel>
+                                <AlertDialogCancel disabled={isLoggingOut}>إلغاء</AlertDialogCancel>
                                 <AlertDialogAction
                                     onClick={handleLogout}
                                     disabled={isLoggingOut}

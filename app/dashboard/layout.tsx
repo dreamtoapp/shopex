@@ -4,10 +4,13 @@ import { UserRole } from '@prisma/client';
 import NotificationPortal from '@/components/ui/NotificationPortal';
 // Removed ServiceWorkerRegistration - web push notifications disabled
 import AdminNotificationWrapper from '@/app/components/AdminNotificationWrapper';
-import DashboardNav from './components/DashboardNav';
 import DashboardFooter from './components/DashboardFooter';
 import { getPendingOrdersCount } from './helpers/navigationMenu';
 import { getCompanyHealthStatus } from '@/actions/getCompanyHealthStatus';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import BusinessSidebar from './components/BusinessSidebar';
+import DashboardTopHeader from './components/DashboardTopHeader';
+import { SidebarInset } from '@/components/ui/sidebar';
 
 export default async function LayoutNew({ children }: { children: React.ReactNode }) {
     // This layout is used for the dashboard pages
@@ -26,24 +29,22 @@ export default async function LayoutNew({ children }: { children: React.ReactNod
 
     // Hardcode RTL for now; in the future, detect from language/i18n
     return (
-        <div className='flex min-h-screen w-full bg-background flex-col' dir='rtl'>
-            {/* Top Navigation Bar */}
-            <DashboardNav pendingOrdersCount={pendingOrdersCount} companyStatus={companyStatus} />
-
-            {/* Main Content Area */}
-            <div className='flex flex-1 flex-col pt-16'>
-                <main className='w-full flex-1 bg-background p-6 flex flex-col'>
-                    {children}
-                </main>
-
-                {/* Footer */}
-                <DashboardFooter />
+        <SidebarProvider>
+            <div className='flex min-h-screen w-full bg-background' dir='rtl'>
+                <BusinessSidebar pendingOrdersCount={pendingOrdersCount} />
+                <SidebarInset>
+                    <DashboardTopHeader companyStatus={companyStatus} />
+                    <main className='w-full flex-1 bg-background p-6 flex flex-col'>
+                        {children}
+                    </main>
+                    <DashboardFooter />
+                </SidebarInset>
             </div>
 
             {/* Notification Components */}
             <NotificationPortal />
             {/* ServiceWorkerRegistration removed - web push notifications disabled */}
             <AdminNotificationWrapper />
-        </div>
+        </SidebarProvider>
     );
 } 

@@ -96,7 +96,7 @@ export async function registerUser(_prevState: any, formData: FormData) {
     // Return phone and password for client-side signIn
     return {
       success: true,
-      redirectTo: userRole === 'ADMIN' ? '/dashboard' : '/user/addresses?welcome=true&message=أضف عنوانك الأول لتسهيل عملية التوصيل',
+      redirectTo: userRole === 'ADMIN' ? '/dashboard' : '/',
       phone,
       password,
       requireOtp, // Include this for client-side handling

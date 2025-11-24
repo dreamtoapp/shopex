@@ -159,7 +159,7 @@ export default async function PendingOrdersPage({
 }
 
 // TODO: Next version enhancements for Pending Orders page
-// - Add bulk operations (assign multiple orders to driver, bulk cancel)
+// - Add bulk operations (bulk cancel)
 // - Implement real-time notifications for new pending orders
 // - Add advanced filtering options (date range, amount range, customer type)
 // - Implement order priority system with visual indicators

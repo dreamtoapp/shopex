@@ -12,6 +12,7 @@ import { Focus } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
 import NotificationBellClient from '@/components/NotificationBellClient';
 import WhatsappMetaButton from './WhatsappMetaButton';
+import { useSession } from 'next-auth/react';
 
 
 interface User {
@@ -33,8 +34,20 @@ interface HeaderUnifiedProps {
     whatsappNumber?: string;
 }
 
-function UserMenuOrLogin({ isLoggedIn, user }: { isLoggedIn: boolean; user: User | null }) {
-    return isLoggedIn ? (
+function UserMenuOrLogin({ isLoggedIn: isLoggedInProp, user: userProp }: { isLoggedIn: boolean; user: User | null }) {
+    const { data: session, status } = useSession();
+    
+    // Use session status when available, fall back to prop during loading
+    const isLoggedIn = (status === 'authenticated' && session?.user) ? true : (status === 'unauthenticated' ? false : isLoggedInProp);
+    const user = (status === 'authenticated' && session?.user) ? {
+        id: session.user.id || '',
+        name: session.user.name,
+        email: session.user.email,
+        image: session.user.image,
+        role: (session.user as any).role,
+    } : (status === 'unauthenticated' ? null : userProp);
+    
+    return isLoggedIn && user ? (
         <UserMenuTrigger user={user} />
     ) : (
         <Link href="/auth/login" className={buttonVariants({ variant: "default", size: "sm" })}>تسجيل الدخول</Link>

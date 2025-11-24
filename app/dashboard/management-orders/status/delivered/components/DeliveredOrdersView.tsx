@@ -65,14 +65,11 @@ export default function DeliveredOrdersView({
   const statistics = useMemo(() => {
     const totalRevenue = orders.reduce((sum, order) => sum + (order.amount || 0), 0);
     const uniqueCustomers = new Set(orders.map(order => order.customer?.id)).size;
-    // Driver functionality removed
-    const uniqueDrivers = 0;
     const avgOrderValue = orders.length > 0 ? totalRevenue / orders.length : 0;
 
     return {
       totalRevenue,
       uniqueCustomers,
-      uniqueDrivers,
       avgOrderValue,
       totalOrders: orders.length
     };
@@ -120,12 +117,11 @@ export default function DeliveredOrdersView({
   // Export to CSV
   const handleExport = () => {
     const csvContent = [
-      ['رقم الطلب', 'العميل', 'المبلغ', 'السائق', 'تاريخ التسليم'].join(','),
+      ['رقم الطلب', 'العميل', 'المبلغ', 'تاريخ التسليم'].join(','),
       ...orders.map(order => [
         order.orderNumber || '—',
         order.customer?.name || order.customer?.email || '—',
         `${formatAmount(order.amount)}`,
-        '—', // Driver removed
         order.deliveredAt ? format(new Date(order.deliveredAt), 'yyyy-MM-dd') : '—'
       ].join(','))
     ].join('\n');
@@ -207,7 +203,7 @@ export default function DeliveredOrdersView({
   return (
     <div className="space-y-6">
       {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <Card className="border-l-4 border-feature-commerce">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
@@ -231,20 +227,6 @@ export default function DeliveredOrdersView({
               <div>
                 <p className="text-sm font-medium text-gray-600">العملاء</p>
                 <p className="text-xl font-bold text-feature-users">{statistics.uniqueCustomers}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border-l-4 border-feature-suppliers">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-feature-suppliers-soft rounded-lg">
-                <Icon name="truck" className="h-5 w-5 text-feature-suppliers" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-600">السائقون</p>
-                <p className="text-xl font-bold text-feature-suppliers">{statistics.uniqueDrivers}</p>
               </div>
             </div>
           </CardContent>
@@ -359,7 +341,7 @@ export default function DeliveredOrdersView({
                           </Badge>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
                           <div className="flex items-center gap-2">
                             <Icon name="user" className="h-4 w-4 text-gray-400" />
                             <span className="font-medium">
@@ -372,11 +354,6 @@ export default function DeliveredOrdersView({
                             <span className="font-mono text-sm">
                               {order.customer?.phone || '—'}
                             </span>
-                          </div>
-
-                          <div className="flex items-center gap-2">
-                            <Icon name="truck" className="h-4 w-4 text-gray-400" />
-                            <span>—</span>
                           </div>
 
                           <div className="flex items-center gap-2">

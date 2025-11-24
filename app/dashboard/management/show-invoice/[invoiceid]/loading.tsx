@@ -22,7 +22,6 @@ function Loading() {
             {/* Action Buttons Skeleton */}
             <div className="flex flex-col sm:flex-row gap-3">
               <Skeleton className="h-10 w-36" /> {/* Email Button */}
-              <Skeleton className="h-10 w-32" /> {/* Driver Button */}
             </div>
           </div>
         </div>

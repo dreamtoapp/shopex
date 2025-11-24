@@ -53,12 +53,6 @@ const categorizedReportsList: ReportCategory[] = [
         iconName: 'ClipboardList',
         description: 'مراقبة مستويات المخزون، المنتجات بطيئة الحركة، وتنبيهات إعادة الطلب.',
       },
-      {
-        title: 'تقرير السائقين والتوصيل',
-        url: '/dashboard/management-reports/drivers',
-        iconName: 'Truck',
-        description: 'تحليل كفاءة التوصيل، أداء السائقين، ومناطق الخدمة.',
-      },
     ],
   },
   {

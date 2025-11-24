@@ -25,7 +25,7 @@ interface PendingOrdersViewProps {
   pendingCount: number;
   currentPage: number;
   pageSize: number;
-  orderType?: 'pending' | 'assigned';
+  orderType?: 'pending';
 }
 
 export default function PendingOrdersView({
@@ -118,10 +118,7 @@ export default function PendingOrdersView({
                 <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3">
                   <Input
                     type="search"
-                    placeholder={orderType === 'assigned'
-                      ? "بحث في الطلبات المُخصصة (رقم الطلب، اسم العميل، اسم السائق)..."
-                      : "بحث عن طلب (رقم الطلب، اسم العميل، رقم الهاتف)..."
-                    }
+                    placeholder="بحث عن طلب (رقم الطلب، اسم العميل، رقم الهاتف)..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="flex-1"
@@ -135,15 +132,12 @@ export default function PendingOrdersView({
                 {/* Search Results Info */}
                 <div className="flex justify-between items-center">
                   {search ? (
-                    <Badge variant="outline" className={`${orderType === 'assigned'
-                      ? 'bg-blue-50 text-blue-600 border-blue-200'
-                      : 'bg-status-pending-soft text-status-pending border-status-pending'
-                      }`}>
+                    <Badge variant="outline" className="bg-status-pending-soft text-status-pending border-status-pending">
                       نتائج البحث: {orders.length}
                     </Badge>
                   ) : (
                     <Badge variant="outline" className="bg-muted text-muted-foreground">
-                      {orderType === 'assigned' ? 'إجمالي الطلبات المُخصصة:' : 'إجمالي الطلبات:'} {pendingCount}
+                      إجمالي الطلبات: {pendingCount}
                     </Badge>
                   )}
                 </div>
@@ -243,11 +237,8 @@ export default function PendingOrdersView({
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-lg">
             <Icon name="FileText" className="h-5 w-5 text-feature-commerce" />
-            {orderType === 'assigned' ? 'الطلبات المُخصصة للسائقين' : 'الطلبات قيد الانتظار'}
-            <Badge className={`px-2 py-1 ml-2 text-sm ${orderType === 'assigned'
-              ? 'bg-blue-500 text-white'
-              : 'bg-status-pending text-white'
-              }`}>
+            الطلبات قيد الانتظار
+            <Badge className="px-2 py-1 ml-2 text-sm bg-status-pending text-white">
               {orders.length}
             </Badge>
           </CardTitle>
