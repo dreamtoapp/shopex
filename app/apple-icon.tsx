@@ -46,11 +46,12 @@ export default async function AppleIcon() {
                   borderRadius: '22px',
                 }}
               >
-                {/* @ts-ignore - ImageResponse supports img with data URLs */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={logoDataUrl}
                   width={180}
                   height={180}
+                  alt="Company logo"
                   style={{
                     objectFit: 'contain',
                   }}
@@ -93,11 +94,12 @@ export default async function AppleIcon() {
             borderRadius: '22px',
           }}
         >
-          {/* @ts-ignore - ImageResponse supports img with data URLs */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={fallbackDataUrl}
             width={180}
             height={180}
+            alt="Fallback company logo"
             style={{
               objectFit: 'contain',
             }}

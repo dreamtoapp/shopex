@@ -46,11 +46,12 @@ export default async function Icon() {
                   borderRadius: '6px',
                 }}
               >
-                {/* @ts-ignore - ImageResponse supports img with data URLs */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={logoDataUrl}
                   width={32}
                   height={32}
+                  alt="Company logo"
                   style={{
                     objectFit: 'contain',
                   }}
@@ -93,11 +94,12 @@ export default async function Icon() {
             borderRadius: '6px',
           }}
         >
-          {/* @ts-ignore - ImageResponse supports img with data URLs */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={fallbackDataUrl}
             width={32}
             height={32}
+            alt="Fallback company logo"
             style={{
               objectFit: 'contain',
             }}

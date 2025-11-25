@@ -316,9 +316,9 @@ const AdminGuidelinesPage = () => (
                 الروتين اليومي الموصى به
               </h4>
               <ol className='list-decimal space-y-2 pr-6 text-sm text-muted-foreground leading-relaxed'>
-                <li>تحقق من الطلبات الجديدة في "قيد المراجعة"</li>
+                <li>تحقق من الطلبات الجديدة في &quot;قيد المراجعة&quot;</li>
                 <li>راجع المخزون وتحديث الكميات المتاحة</li>
-                <li>رد على استفسارات العملاء من "الدعم"</li>
+                <li>رد على استفسارات العملاء من &quot;الدعم&quot;</li>
                 <li>راجع التقارير اليومية للمبيعات</li>
                 <li>تأكد من تحديث العروض الترويجية</li>
               </ol>
@@ -349,7 +349,7 @@ const AdminGuidelinesPage = () => (
                 </div>
                 <div className='mt-4 p-3 bg-info-soft-bg/50 rounded-lg border border-info-fg/30'>
                   <p className='font-semibold mb-1 text-info-fg'>💡 ملاحظة:</p>
-                  <p>بعض النماذج تحتوي على زر "حفظ الصورة" - اضغط عليه بعد اختيار الصورة لإكمال الرفع.</p>
+                  <p>بعض النماذج تحتوي على زر &quot;حفظ الصورة&quot; - اضغط عليه بعد اختيار الصورة لإكمال الرفع.</p>
                 </div>
               </div>
             </div>
@@ -417,7 +417,7 @@ const AdminGuidelinesPage = () => (
             <Card className="p-5 rounded-xl">
               <h4 className='font-semibold mb-2'>❓ كيف أضيف منتج جديد؟</h4>
               <p className='text-sm text-muted-foreground leading-relaxed'>
-                اذهب إلى <Link href="/dashboard/management-products" className="text-primary hover:underline font-medium">المنتجات</Link> واضغط "إضافة منتج جديد"، تأكد من وجود تصنيف أولاً.
+                اذهب إلى <Link href="/dashboard/management-products" className="text-primary hover:underline font-medium">المنتجات</Link> واضغط &quot;إضافة منتج جديد&quot;، تأكد من وجود تصنيف أولاً.
               </p>
             </Card>
 
@@ -431,7 +431,7 @@ const AdminGuidelinesPage = () => (
             <Card className="p-5 rounded-xl">
               <h4 className='font-semibold mb-2'>❓ كيف أضيف مورد جديد؟</h4>
               <p className='text-sm text-muted-foreground leading-relaxed'>
-                اذهب إلى <Link href="/dashboard/management-suppliers" className="text-primary hover:underline font-medium">الموردين</Link> واضغط "إضافة شركة جديدة".
+                اذهب إلى <Link href="/dashboard/management-suppliers" className="text-primary hover:underline font-medium">الموردين</Link> واضغط &quot;إضافة شركة جديدة&quot;.
               </p>
             </Card>
 
